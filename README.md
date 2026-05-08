@@ -39,9 +39,12 @@ That's it.
 - It doesn't need any support materials.
 - [Fuzzy skin](https://help.prusa3d.com/article/fuzzy-skin_246186) is useful to make it tight to attach.
 
-## Leading manufacturers of TP containers
+## Supported vendors
 
 - [Sanko(三甲株式会社)](https://www.sanko-kk.co.jp/)
+
+The following vendors are not supported yet due to compatibility issues.
+
 - [Risu(岐阜プラスチック工業株式会社)](https://www.risu.co.jp/)
 - [Sekisui Techno Molding(積水テクノ成型株式会社)](https://sekisui-techno-molding.jp/)
 
