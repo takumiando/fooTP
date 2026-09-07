@@ -1,0 +1,45 @@
+name: Build release assets
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    env:
+      MODELS: |
+        footp_sanko
+
+    steps:
+      - name: Check out the release tag
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Install OpenSCAD
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes openscad
+
+      - name: Generate STL files
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+
+          while read -r model; do
+            [[ -z "${model}" ]] && continue
+            openscad \
+              --export-format binstl \
+              -o "dist/${model}.stl" \
+              "${model}.scad"
+          done <<< "${MODELS}"
+
+      - name: Upload STL files to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "${RELEASE_TAG}" dist/*.stl --clobber
